@@ -1,0 +1,104 @@
+
+int buttons[6];
+//notes are C,D,E,F
+int notes[] = {262,294,330,349};
+const int ledPin = 13;
+int sensorLow = 1023;
+int sensorHigh = 0;
+int sensorValue;
+//if the range is quite small, negative numbers appear for sensor value
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH); //turn on board light
+  Serial.begin(9600);
+  Serial.print("good");
+
+ //cp light sensitive resistor setup
+//    while(millis() < 5000){
+//      sensorValue = analogRead(A1);
+//      
+//      if (sensorValue > sensorHigh) {
+//          sensorHigh = sensorValue;
+//      };
+//      if (sensorValue < sensorLow) {
+//          sensorLow = sensorValue;   
+//      };
+//        digitalWrite(ledPin, LOW); 
+//    }
+//
+//      Serial.print("Got high value: ");
+//      Serial.println(sensorHigh);
+//      Serial.print("Got low value: ");
+//      Serial.println(sensorLow);
+//
+// while(millis() < 5000){
+//    sensorValue = analogRead(A1);
+//    if (sensorValue > sensorHigh) {
+//        sensorHigh = sensorValue;
+//      }
+//    if (sensorValue < sensorLow){
+//        sensorLow= sensorValue;
+//      } 
+//
+//  }
+//      digitalWrite(ledPin, LOW);     
+};
+
+//this function return a number
+int scaling() {
+    int sensorValue = analogRead(A1);
+    int scaledValue = (sensorValue - sensorLow)*10/(sensorHigh - sensorLow);
+  Serial.print("Scaled value is: ");
+  Serial.println(scaledValue);
+ return 1;
+
+  };
+    
+  //you can write a function here, and then call it in the loop
+    int testPrint() {
+    Serial.print("1st button pushed");
+      };
+
+      
+//1.what does *scaling do? - allows it to always retun the sensor value number - intermitently 
+//2. tone can't cope with notes[0]* (scaling()*100)) tone(pin,frequency in hrtz)
+//3. get rid of scaling, get a global function to return hrtz values dependend on hardcoded rang values?
+void loop() {
+//themin 
+//   Serial.println(sensorLow); 
+//   Serial.println(sensorHigh);
+//  sensorValue = analogRead(A1);
+//  int pitch = 
+//    map(sensorValue, sensorLow, sensorHigh, 50 ,1000);
+//    tone(8, pitch, 50);
+//    delay(10);
+//    Serial.print("sensor value: "); 
+//    Serial.println(sensorValue);
+
+  //delay(5000);
+int keyVal = analogRead(A0);
+//the && isn't working with < - you're close but not quite
+  if(keyVal==1023) {
+     tone(8, notes[0]*scaling());  
+ }  else   if(keyVal==1023 ) {
+    // 0 is closest to piezo
+     tone(8, notes[0]* 10); 
+     testPrint(); 
+ }  else
+ 
+ 
+ if(keyVal >=990 && keyVal <=1010) {
+      tone(8, notes[1] * scaling());
+    } else if (keyVal >= 505 && keyVal <= 515){
+         tone(8, notes[2] * scaling());
+      } else if (keyVal >=960 && keyVal <=980){
+            tone(8, notes[3] * scaling());}
+         else {
+            noTone(8);
+          }
+
+}
+
+
+
